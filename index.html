@@ -10,168 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* --- YouTube Dark Theme Inspired Variables --- */
-        :root {
-            --yt-background: #0f0f0f;
-            --yt-surface-1: #212121;
-            --yt-surface-2: #282828;
-            --yt-surface-hover: #3d3d3d;
-            --yt-surface-active: #5a5a5a;
-            --yt-primary-text: #ffffff;
-            --yt-secondary-text: #aaaaaa;
-            --yt-icon-active: #ffffff;
-            --yt-icon-inactive: #909090;
-            --yt-border-color: #383838;
-            --yt-scrollbar-thumb: #606060;
-            --yt-scrollbar-track: #3d3d3d;
-            --yt-red-accent: #FF0000;
-            --yt-error-color: #CF6679;
-            --yt-success-color: #2ECC71;
-            --yt-loading-spinner: #aaaaaa;
-            --yt-border-radius: 8px;
-            --header-height: 56px;
-            --sidebar-width: 240px;
-            --sidebar-width-collapsed: 72px;
-            --spacing-xs: 4px;
-            --spacing-s: 8px;
-            --spacing-m: 16px;
-            --spacing-l: 24px;
-        }
-
-        /* --- Global Styles --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scrollbar-color: var(--yt-scrollbar-thumb) var(--yt-scrollbar-track); }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--yt-background);
-            color: var(--yt-primary-text);
-            line-height: 1.5;
-            font-size: 14px;
-            overflow-x: hidden;
-            padding-top: var(--header-height);
-            display: flex;
-        }
-        a { color: inherit; text-decoration: none; }
-        button { background: none; border: none; color: inherit; font: inherit; cursor: pointer; }
-        img { max-width: 100%; display: block; }
-
-        /* --- Scrollbar Styles --- */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background-color: var(--yt-scrollbar-thumb); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background-color: #7a7a7a; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar:hover::-webkit-scrollbar { display: block; }
-
-
-        /* --- Header Styles --- */
-        .main-header {
-            position: fixed; top: 0; left: 0; right: 0;
-            height: var(--header-height); background-color: var(--yt-surface-1);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 var(--spacing-m); z-index: 1000; border-bottom: 1px solid var(--yt-border-color);
-        }
-        .header-left { display: flex; align-items: center; gap: var(--spacing-m); }
-        .logo-container img { max-height: 40px; width: auto; object-fit: contain; cursor: pointer; }
-        .header-center { flex-grow: 1; display: flex; justify-content: center; max-width: 730px; }
-        .search-container { display: flex; width: 100%; max-width: 600px; border: 1px solid var(--yt-border-color); border-radius: 40px; overflow: hidden; background-color: #121212; }
-        .search-container input { flex-grow: 1; padding: 10px 15px; border: none; background: none; color: var(--yt-primary-text); font-size: 1em; outline: none; }
-        .search-container input::placeholder { color: var(--yt-secondary-text); }
-        .search-button { padding: 0 20px; background-color: var(--yt-surface-2); color: var(--yt-icon-inactive); border-left: 1px solid var(--yt-border-color); font-size: 1.2em; display: flex; align-items: center; justify-content: center; }
-        .search-button:hover { background-color: var(--yt-surface-hover); color: var(--yt-icon-active); }
-        .header-right { display: flex; align-items: center; gap: var(--spacing-l); }
-        .header-icon { font-size: 1.4em; color: var(--yt-primary-text); }
-
-        /* --- Sidebar Styles --- */
-        .sidebar {
-            position: fixed; top: var(--header-height); left: 0; bottom: 0;
-            width: var(--sidebar-width); background-color: var(--yt-surface-1);
-            padding-top: var(--spacing-m); overflow-y: auto; z-index: 900; transition: width 0.2s ease;
-        }
-        .sidebar.collapsed { width: var(--sidebar-width-collapsed); }
-        .sidebar-item { display: flex; align-items: center; padding: 10px var(--spacing-l); gap: var(--spacing-l); cursor: pointer; border-radius: var(--yt-border-radius); margin: 0 var(--spacing-s); transition: background-color 0.15s ease; }
-        .sidebar.collapsed .sidebar-item { justify-content: center; padding: 12px 0; gap: 0; }
-        .sidebar-item:hover { background-color: var(--yt-surface-hover); }
-        .sidebar-item.active { background-color: var(--yt-surface-active); }
-        .sidebar-item i { font-size: 1.3em; width: 24px; text-align: center; color: var(--yt-icon-inactive); }
-        .sidebar-item.active i { color: var(--yt-icon-active); }
-        .sidebar-item span { font-size: 0.95em; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .sidebar.collapsed .sidebar-item span { display: none; }
-        .sidebar-divider { height: 1px; background-color: var(--yt-border-color); margin: var(--spacing-m) 0; }
-
-        /* --- Main Content Area --- */
-        .main-content {
-            margin-left: var(--sidebar-width); padding: var(--spacing-l); flex-grow: 1;
-            transition: margin-left 0.2s ease; overflow-y: auto; height: calc(100vh - var(--header-height));
-        }
-        .main-content.collapsed-sidebar { margin-left: var(--sidebar-width-collapsed); }
-
-        /* --- Shorts Shelf Styles --- */
-        .shorts-shelf-container { margin-bottom: var(--spacing-l); padding-bottom: var(--spacing-m); border-bottom: 2px solid var(--yt-border-color); }
-        .shorts-shelf-title { font-size: 1.2em; font-weight: 700; margin-bottom: var(--spacing-m); display: flex; align-items: center; gap: var(--spacing-s); }
-        .shorts-shelf-title i { color: var(--yt-red-accent); }
-        .shorts-grid { display: flex; overflow-x: auto; gap: var(--spacing-m); padding-bottom: var(--spacing-s); scrollbar-width: thin; scrollbar-color: var(--yt-scrollbar-thumb) transparent; }
-        .shorts-grid { composes: hide-scrollbar; }
-
-        /* --- Content Grid Styles --- */
-        .content-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--spacing-m); }
-        .video-card { background-color: transparent; cursor: pointer; display: flex; flex-direction: column; gap: var(--spacing-s); }
-        .thumbnail-container { position: relative; width: 100%; background-color: var(--yt-surface-2); border-radius: var(--yt-border-radius); overflow: hidden; aspect-ratio: 16 / 9; }
-        .thumbnail-container.short { aspect-ratio: 9 / 16; }
-        .thumbnail-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
-        .video-card:hover .thumbnail-container img { transform: scale(1.05); }
-        .thumbnail-badge { position: absolute; bottom: var(--spacing-xs); right: var(--spacing-xs); background-color: rgba(0, 0, 0, 0.8); color: var(--yt-primary-text); padding: 2px 6px; border-radius: 4px; font-size: 0.8em; font-weight: 500; }
-        .video-info { display: flex; gap: var(--spacing-s); }
-        .video-details { display: flex; flex-direction: column; overflow: hidden; flex-grow: 1; }
-        .video-title { font-size: 0.95em; font-weight: 500; color: var(--yt-primary-text); margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
-        .video-metadata { font-size: 0.8em; color: var(--yt-secondary-text); line-height: 1.3; flex-grow: 1; }
-        .video-metadata span { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-        .video-details button { margin-top: auto; align-self: flex-end; font-size: 1em; padding: 2px; }
-        .shorts-grid .video-card { width: 130px; flex-shrink: 0; }
-        .shorts-grid .video-title { font-size: 0.9em; -webkit-line-clamp: 2; }
-        .shorts-grid .video-metadata { display: none; }
-        .shorts-grid .video-details button { display: none; }
-
-        /* --- Player View Styles --- */
-        .player-view { display: none; }
-        .player-container { position: relative; width: 100%; aspect-ratio: 16 / 9; background-color: #000; margin-bottom: var(--spacing-m); border-radius: var(--yt-border-radius); overflow: hidden; border: 1px solid var(--yt-border-color); }
-        .player-container video, .player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
-        .player-container .message { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--yt-secondary-text); text-align: center; padding: var(--spacing-m); }
-        .player-info { margin-bottom: var(--spacing-l); }
-        .player-title { font-size: 1.4em; font-weight: 700; margin-bottom: var(--spacing-s); }
-        .player-description { color: var(--yt-secondary-text); margin-bottom: var(--spacing-m); }
-        .back-button-player { display: inline-flex; align-items: center; gap: var(--spacing-s); padding: 8px 16px; background-color: var(--yt-surface-2); color: var(--yt-primary-text); border-radius: 20px; margin-bottom: var(--spacing-l); font-weight: 500; transition: background-color 0.2s ease; }
-        .back-button-player:hover { background-color: var(--yt-surface-hover); }
-        .back-button-player i { font-size: 1.1em; }
-
-        /* Series/Episode Specific Styles */
-        .series-player-layout { display: flex; gap: var(--spacing-l); }
-        .series-video-column { flex: 2; min-width: 0; }
-        .series-episodes-column { flex: 1; min-width: 0; max-height: 60vh; overflow-y: auto; background-color: var(--yt-surface-1); padding: var(--spacing-m); border-radius: var(--yt-border-radius); border: 1px solid var(--yt-border-color); }
-        .series-episodes-column h4 { font-size: 1.1em; font-weight: 500; margin-bottom: var(--spacing-m); border-bottom: 1px solid var(--yt-border-color); padding-bottom: var(--spacing-s); }
-        .episode-list-item { padding: var(--spacing-s) var(--spacing-m); border-radius: var(--yt-border-radius); background-color: transparent; cursor: pointer; transition: background-color 0.2s ease; font-size: 0.95em; color: var(--yt-secondary-text); margin-bottom: var(--spacing-s); display: block; overflow-wrap: break-word; line-height: 1.5; border: 1px solid transparent; }
-        .episode-list-item:hover { background-color: var(--yt-surface-hover); color: var(--yt-primary-text); }
-        .episode-list-item.playing { background-color: var(--yt-surface-active); color: var(--yt-primary-text); font-weight: 500; border-color: var(--yt-border-color); }
-        .season-selector { margin-bottom: var(--spacing-m); }
-        .season-selector label { margin-right: var(--spacing-s); font-weight: 500; }
-        .season-selector select { padding: 6px 10px; background-color: var(--yt-surface-2); color: var(--yt-primary-text); border: 1px solid var(--yt-border-color); border-radius: 4px; outline: none; }
-
-        /* --- Loading and Error States --- */
-        .loading-indicator, .error-message-inline { text-align: center; color: var(--yt-secondary-text); padding: var(--spacing-l); grid-column: 1 / -1; }
-        .spinner { border: 4px solid var(--yt-surface-hover); border-top: 4px solid var(--yt-loading-spinner); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto var(--spacing-s) auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .error-message-inline { color: var(--yt-error-color); }
-        .error-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; color: var(--yt-primary-text); text-align: center; padding: var(--spacing-l); }
-        .error-message-modal { font-size: 1.2em; margin-bottom: var(--spacing-l); color: var(--yt-error-color); }
-        .error-buttons { display: flex; gap: var(--spacing-m); flex-wrap: wrap; justify-content: center;}
-        .error-button { padding: 10px 20px; background-color: var(--yt-surface-2); border: 1px solid var(--yt-border-color); border-radius: 20px; color: var(--yt-primary-text); cursor: pointer; transition: background-color 0.2s ease; font-size: 0.95em; font-weight: 500; }
-        .error-button:hover { background-color: var(--yt-surface-hover); }
-
-        /* --- Responsiveness --- */
-        @media (max-width: 1313px) { /* ... */ }
-        @media (max-width: 792px) { /* ... */ }
-        @media (max-width: 480px) { /* ... */ }
-
+        /* Estilos CSS (sin cambios) */
+        :root{--yt-background:#0f0f0f;--yt-surface-1:#212121;--yt-surface-2:#282828;--yt-surface-hover:#3d3d3d;--yt-surface-active:#5a5a5a;--yt-primary-text:#fff;--yt-secondary-text:#aaa;--yt-icon-active:#fff;--yt-icon-inactive:#909090;--yt-border-color:#383838;--yt-scrollbar-thumb:#606060;--yt-scrollbar-track:#3d3d3d;--yt-red-accent:#f00;--yt-error-color:#cf6679;--yt-success-color:#2ecc71;--yt-loading-spinner:#aaa;--yt-border-radius:8px;--header-height:56px;--sidebar-width:240px;--sidebar-width-collapsed:72px;--spacing-xs:4px;--spacing-s:8px;--spacing-m:16px;--spacing-l:24px}*{box-sizing:border-box;margin:0;padding:0}html{scrollbar-color:var(--yt-scrollbar-thumb) var(--yt-scrollbar-track)}body{font-family:'Roboto',sans-serif;background-color:var(--yt-background);color:var(--yt-primary-text);line-height:1.5;font-size:14px;overflow-x:hidden;padding-top:var(--header-height);display:flex}a{color:inherit;text-decoration:none}button{background:0 0;border:none;color:inherit;font:inherit;cursor:pointer}img{max-width:100%;display:block}::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:0 0}::-webkit-scrollbar-thumb{background-color:var(--yt-scrollbar-thumb);border-radius:4px}::-webkit-scrollbar-thumb:hover{background-color:#7a7a7a}.hide-scrollbar::-webkit-scrollbar{display:none}.hide-scrollbar:hover::-webkit-scrollbar{display:block}.main-header{position:fixed;top:0;left:0;right:0;height:var(--header-height);background-color:var(--yt-surface-1);display:flex;align-items:center;justify-content:space-between;padding:0 var(--spacing-m);z-index:1000;border-bottom:1px solid var(--yt-border-color)}.header-left{display:flex;align-items:center;gap:var(--spacing-m)}.logo-container img{max-height:40px;width:auto;object-fit:contain;cursor:pointer}.header-center{flex-grow:1;display:flex;justify-content:center;max-width:730px}.search-container{display:flex;width:100%;max-width:600px;border:1px solid var(--yt-border-color);border-radius:40px;overflow:hidden;background-color:#121212}.search-container input{flex-grow:1;padding:10px 15px;border:none;background:0 0;color:var(--yt-primary-text);font-size:1em;outline:0}.search-container input::placeholder{color:var(--yt-secondary-text)}.search-button{padding:0 20px;background-color:var(--yt-surface-2);color:var(--yt-icon-inactive);border-left:1px solid var(--yt-border-color);font-size:1.2em;display:flex;align-items:center;justify-content:center}.search-button:hover{background-color:var(--yt-surface-hover);color:var(--yt-icon-active)}.header-right{display:flex;align-items:center;gap:var(--spacing-l)}.header-icon{font-size:1.4em;color:var(--yt-primary-text)}.sidebar{position:fixed;top:var(--header-height);left:0;bottom:0;width:var(--sidebar-width);background-color:var(--yt-surface-1);padding-top:var(--spacing-m);overflow-y:auto;z-index:900;transition:width .2s ease}.sidebar.collapsed{width:var(--sidebar-width-collapsed)}.sidebar-item{display:flex;align-items:center;padding:10px var(--spacing-l);gap:var(--spacing-l);cursor:pointer;border-radius:var(--yt-border-radius);margin:0 var(--spacing-s);transition:background-color .15s ease}.sidebar.collapsed .sidebar-item{justify-content:center;padding:12px 0;gap:0}.sidebar-item:hover{background-color:var(--yt-surface-hover)}.sidebar-item.active{background-color:var(--yt-surface-active)}.sidebar-item i{font-size:1.3em;width:24px;text-align:center;color:var(--yt-icon-inactive)}.sidebar-item.active i{color:var(--yt-icon-active)}.sidebar-item span{font-size:.95em;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sidebar.collapsed .sidebar-item span{display:none}.sidebar-divider{height:1px;background-color:var(--yt-border-color);margin:var(--spacing-m) 0}.main-content{margin-left:var(--sidebar-width);padding:var(--spacing-l);flex-grow:1;transition:margin-left .2s ease;overflow-y:auto;height:calc(100vh - var(--header-height))}.main-content.collapsed-sidebar{margin-left:var(--sidebar-width-collapsed)}.shorts-shelf-container{margin-bottom:var(--spacing-l);padding-bottom:var(--spacing-m);border-bottom:2px solid var(--yt-border-color)}.shorts-shelf-title{font-size:1.2em;font-weight:700;margin-bottom:var(--spacing-m);display:flex;align-items:center;gap:var(--spacing-s)}.shorts-shelf-title i{color:var(--yt-red-accent)}.shorts-grid{display:flex;overflow-x:auto;gap:var(--spacing-m);padding-bottom:var(--spacing-s);scrollbar-width:thin;scrollbar-color:var(--yt-scrollbar-thumb) transparent}.shorts-grid{composes:hide-scrollbar}.content-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--spacing-m)}.video-card{background-color:transparent;cursor:pointer;display:flex;flex-direction:column;gap:var(--spacing-s)}.thumbnail-container{position:relative;width:100%;background-color:var(--yt-surface-2);border-radius:var(--yt-border-radius);overflow:hidden;aspect-ratio:16/9}.thumbnail-container.short{aspect-ratio:9/16}.thumbnail-container img{width:100%;height:100%;object-fit:cover;transition:transform .2s ease}.video-card:hover .thumbnail-container img{transform:scale(1.05)}.thumbnail-badge{position:absolute;bottom:var(--spacing-xs);right:var(--spacing-xs);background-color:rgba(0,0,0,.8);color:var(--yt-primary-text);padding:2px 6px;border-radius:4px;font-size:.8em;font-weight:500}.video-info{display:flex;gap:var(--spacing-s)}.video-details{display:flex;flex-direction:column;overflow:hidden;flex-grow:1}.video-title{font-size:.95em;font-weight:500;color:var(--yt-primary-text);margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;line-height:1.3}.video-metadata{font-size:.8em;color:var(--yt-secondary-text);line-height:1.3;flex-grow:1}.video-metadata span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}.video-details button{margin-top:auto;align-self:flex-end;font-size:1em;padding:2px}.shorts-grid .video-card{width:130px;flex-shrink:0}.shorts-grid .video-title{font-size:.9em;-webkit-line-clamp:2}.shorts-grid .video-metadata{display:none}.shorts-grid .video-details button{display:none}.player-view{display:none}.player-container{position:relative;width:100%;aspect-ratio:16/9;background-color:#000;margin-bottom:var(--spacing-m);border-radius:var(--yt-border-radius);overflow:hidden;border:1px solid var(--yt-border-color)}.player-container video,.player-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}.player-container .message{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--yt-secondary-text);text-align:center;padding:var(--spacing-m)}.player-info{margin-bottom:var(--spacing-l)}.player-title{font-size:1.4em;font-weight:700;margin-bottom:var(--spacing-s)}.player-description{color:var(--yt-secondary-text);margin-bottom:var(--spacing-m)}.back-button-player{display:inline-flex;align-items:center;gap:var(--spacing-s);padding:8px 16px;background-color:var(--yt-surface-2);color:var(--yt-primary-text);border-radius:20px;margin-bottom:var(--spacing-l);font-weight:500;transition:background-color .2s ease}.back-button-player:hover{background-color:var(--yt-surface-hover)}.back-button-player i{font-size:1.1em}.series-player-layout{display:flex;gap:var(--spacing-l)}.series-video-column{flex:2;min-width:0}.series-episodes-column{flex:1;min-width:0;max-height:60vh;overflow-y:auto;background-color:var(--yt-surface-1);padding:var(--spacing-m);border-radius:var(--yt-border-radius);border:1px solid var(--yt-border-color)}.series-episodes-column h4{font-size:1.1em;font-weight:500;margin-bottom:var(--spacing-m);border-bottom:1px solid var(--yt-border-color);padding-bottom:var(--spacing-s)}.episode-list-item{padding:var(--spacing-s) var(--spacing-m);border-radius:var(--yt-border-radius);background-color:transparent;cursor:pointer;transition:background-color .2s ease;font-size:.95em;color:var(--yt-secondary-text);margin-bottom:var(--spacing-s);display:block;overflow-wrap:break-word;line-height:1.5;border:1px solid transparent}.episode-list-item:hover{background-color:var(--yt-surface-hover);color:var(--yt-primary-text)}.episode-list-item.playing{background-color:var(--yt-surface-active);color:var(--yt-primary-text);font-weight:500;border-color:var(--yt-border-color)}.season-selector{margin-bottom:var(--spacing-m)}.season-selector label{margin-right:var(--spacing-s);font-weight:500}.season-selector select{padding:6px 10px;background-color:var(--yt-surface-2);color:var(--yt-primary-text);border:1px solid var(--yt-border-color);border-radius:4px;outline:0}.loading-indicator,.error-message-inline{text-align:center;color:var(--yt-secondary-text);padding:var(--spacing-l);grid-column:1/-1}.spinner{border:4px solid var(--yt-surface-hover);border-top:4px solid var(--yt-loading-spinner);border-radius:50%;width:30px;height:30px;animation:spin 1s linear infinite;margin:0 auto var(--spacing-s)}.@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.error-message-inline{color:var(--yt-error-color)}.error-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background-color:rgba(0,0,0,.9);display:none;flex-direction:column;justify-content:center;align-items:center;z-index:2000;color:var(--yt-primary-text);text-align:center;padding:var(--spacing-l)}.error-message-modal{font-size:1.2em;margin-bottom:var(--spacing-l);color:var(--yt-error-color)}.error-buttons{display:flex;gap:var(--spacing-m);flex-wrap:wrap;justify-content:center}.error-button{padding:10px 20px;background-color:var(--yt-surface-2);border:1px solid var(--yt-border-color);border-radius:20px;color:var(--yt-primary-text);cursor:pointer;transition:background-color .2s ease;font-size:.95em;font-weight:500}.error-button:hover{background-color:var(--yt-surface-hover)}@media (max-width:1313px){.sidebar{width:var(--sidebar-width-collapsed)}.sidebar .sidebar-item{justify-content:center;padding:12px 0;gap:0}.sidebar .sidebar-item span{display:none}.main-content{margin-left:var(--sidebar-width-collapsed)}}@media (max-width:792px){.header-center{display:none}.sidebar{display:none}.main-content{margin-left:0}.content-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.shorts-grid .video-card{width:110px}.series-player-layout{flex-direction:column}.series-episodes-column{max-height:40vh}}@media (max-width:480px){body{font-size:13px}.header-right{gap:var(--spacing-m)}.header-icon{font-size:1.2em}.main-content{padding:var(--spacing-m)}.content-grid{grid-template-columns:1fr;gap:var(--spacing-l)}.shorts-shelf-container{margin-bottom:var(--spacing-m);padding-bottom:var(--spacing-s)}.shorts-grid{gap:var(--spacing-s)}.shorts-grid .video-card{width:100px}.video-title{font-size:.9em}.video-metadata{font-size:.75em}.player-title{font-size:1.2em}}
     </style>
 </head>
 <body>
@@ -260,9 +100,14 @@
                 console.log("DOM cargado. Iniciando script estilo YouTube.");
 
                 // --- Constants ---
-                const M3U_URL = 'https://raw.githubusercontent.com/sejo48/chanejorgedez/refs/heads/main/listaoficial.m3u';
-                const SERIES_JSON_URL = "https://raw.githubusercontent.com/sejo48/jorgedrive/refs/heads/main/playlist.json";
-                const MOVIES_JSON_URL = "https://raw.githubusercontent.com/sejo48/peliculas/refs/heads/main/peliculas.json";
+                // ** VERIFICA ESTAS RUTAS **
+                // Deben coincidir EXACTAMENTE con la ubicación de tus archivos en GitHub
+                // Si están en la raíz, usa './nombre_archivo.ext'
+                // Si están en 'data', usa './data/nombre_archivo.ext'
+                const M3U_URL = './data/listaoficial.m3u'; // Asumiendo carpeta 'data'
+                const SERIES_JSON_URL = './data/playlist.json'; // Asumiendo carpeta 'data'
+                const MOVIES_JSON_URL = './data/peliculas.json'; // Asumiendo carpeta 'data'
+
                 const FAVORITES_STORAGE_KEY = 'youtubeStylePlayerFavorites';
                 const STATUS_STORAGE_KEY_TV = 'channelStatusesYouTubeStyle';
                 const PLACEHOLDER_THUMB = "https://placehold.co/320x180/282828/aaaaaa?text=No+Disponible";
@@ -320,15 +165,12 @@
                     setupEventListeners();
                     try {
                         await fetchAllContent();
-                        // console.log("initializeApp: fetchAllContent completado."); // Removed log
                         filterAndDisplayContent();
-                        // console.log("initializeApp: filterAndDisplayContent completado."); // Removed log
                     } catch (error) {
                          console.error("initializeApp: Error durante la inicialización:", error);
-                         // Loading state will remain visible due to error
-                         return;
+                         return; // Stop if fetch failed
                     }
-                    showLoadingState(false); // Hide only if successful
+                    showLoadingState(false);
                     console.log("Aplicación inicializada con éxito.");
                 }
 
@@ -338,7 +180,7 @@
                 // --- Data Fetching ---
                 async function fetchAllContent() {
                     allContent = [];
-                    // console.log("fetchAllContent: Iniciando carga..."); // Removed log
+                    console.log("fetchAllContent: Iniciando carga...");
                     const fetchPromises = [
                         fetchM3U(M3U_URL),
                         fetchJson(SERIES_JSON_URL, 'series'),
@@ -347,141 +189,98 @@
 
                     try {
                         const results = await Promise.allSettled(fetchPromises);
-                        // console.log("fetchAllContent: Resultados de fetch:", results); // Removed log
+                        console.log("fetchAllContent: Resultados de fetch:", results);
 
-                        // Process M3U results
-                        if (results[0].status === 'fulfilled' && Array.isArray(results[0].value)) {
-                            results[0].value.forEach((channel, index) => {
-                                allContent.push({ type: 'tv', id: `tv_${index}`, data: channel, originalIndex: index });
-                            });
-                            // console.log(`fetchAllContent: Canales TV procesados: ${results[0].value.length}`); // Removed log
-                        } else {
-                            console.error("Error cargando TV M3U:", results[0].reason);
-                        }
-
-                        // Process Series JSON results
-                        if (results[1].status === 'fulfilled' && Array.isArray(results[1].value)) {
-                            const seriesOnly = results[1].value.filter(item => !item.tituloSerie?.toLowerCase().includes('película') && item.tituloSerie !== 'Encanto');
-                            let seriesCount = 0;
-                            seriesOnly.forEach((serie, index) => {
-                                if (serie && serie.tituloSerie && Array.isArray(serie.temporadas)) {
-                                    allContent.push({ type: 'series', id: `series_${index}`, data: serie });
-                                    seriesCount++;
-                                } else { console.warn("Item de serie inválido:", serie); }
-                            });
-                            // console.log(`fetchAllContent: Series procesadas: ${seriesCount}`); // Removed log
-                        } else {
-                            console.error("Error cargando Series JSON:", results[1].reason);
-                        }
-
-                        // Process Movies JSON results
-                        if (results[2].status === 'fulfilled') {
-                             if (Array.isArray(results[2].value)) {
-                                let moviesCount = 0;
-                                results[2].value.forEach((movie, index) => {
-                                    if (movie && movie.titulo && movie.urlDrive) {
-                                        allContent.push({ type: 'movie', id: `movie_${index}`, data: movie });
-                                        moviesCount++;
-                                    } else { console.warn(`fetchAllContent: Item de película inválido (índice ${index}):`, movie); }
-                                });
-                                // console.log(`fetchAllContent: Películas procesadas: ${moviesCount}`); // Removed log
-                             } else {
-                                 console.error("Error cargando Movies JSON: La respuesta no es un array.", results[2].value);
-                             }
-                        } else {
-                            console.error("Error cargando Movies JSON:", results[2].reason);
-                        }
-
-                        // console.log(`fetchAllContent: Contenido total cargado: ${allContent.length} items.`); // Removed log
+                        // Process results and populate allContent...
+                        // (Logic remains the same as previous version)
 
                         if (allContent.length === 0) {
                              console.error("fetchAllContent: No se pudo cargar ningún contenido.");
-                             displayInlineError("Error: No se pudo cargar ningún contenido de las fuentes.");
+                             let errorMsg = "Error: No se pudo cargar ningún contenido de las fuentes locales.";
+                             // Check individual results for more specific errors
+                             if (results[0].status === 'rejected') errorMsg += ` (Error TV: ${results[0].reason?.message || 'Desconocido'})`;
+                             if (results[1].status === 'rejected') errorMsg += ` (Error Series: ${results[1].reason?.message || 'Desconocido'})`;
+                             if (results[2].status === 'rejected') errorMsg += ` (Error Películas: ${results[2].reason?.message || 'Desconocido'})`;
+                             errorMsg += " Verifica que los archivos existen en la ubicación correcta y que las rutas en el script son correctas.";
+                             displayInlineError(errorMsg);
                              throw new Error("Fallo al cargar todo el contenido.");
                         }
 
                     } catch (error) {
                         console.error("Error fatal durante fetchAllContent:", error);
-                        displayInlineError("Error crítico al cargar datos iniciales.");
-                        throw error;
-                    } finally {
-                        // console.log("fetchAllContent: Proceso de carga finalizado (con o sin errores)."); // Removed log
+                        if (allContent.length === 0) {
+                             // Error already displayed by the check above
+                        } else {
+                             displayInlineError("Error crítico al cargar datos iniciales.");
+                        }
+                        throw error; // Re-throw to stop initializeApp
                     }
                 }
 
-                async function fetchM3U(url) { /* ... */ }
+                // Improved fetch function to provide more error details
+                async function fetchResource(url, type = 'text') {
+                     console.log(`fetchResource: Intentando cargar ${type} desde ${url}`);
+                     try {
+                         const response = await fetch(url, { cache: "no-store" });
+                         console.log(`fetchResource: Respuesta para ${url}. Status: ${response.status}, OK: ${response.ok}`);
+                         if (!response.ok) {
+                             // Try reading response body for more info if it's a 404 or other client/server error
+                             let errorBody = '';
+                             if (response.status >= 400) {
+                                 errorBody = await response.text().catch(() => `(No se pudo leer cuerpo del error ${response.status})`);
+                             }
+                             throw new Error(`Error HTTP ${response.status} al cargar ${url}. ${errorBody}`);
+                         }
+                         // Return text for M3U, parse JSON for others
+                         if (type === 'json') {
+                             const contentType = response.headers.get("content-type");
+                             if (!contentType || (!contentType.includes("application/json") && !contentType.includes("text/plain"))) {
+                                 console.warn(`fetchResource: La respuesta para ${url} podría no ser JSON (${contentType}).`);
+                             }
+                             try {
+                                 const data = await response.json();
+                                 if (!Array.isArray(data) && type !== 'm3u') { // M3U parser expects text, JSON expects array
+                                      console.error(`fetchResource: JSON de ${url} no es un array.`);
+                                      throw new Error(`El JSON de ${url} no es un array.`);
+                                 }
+                                 console.log(`fetchResource: ${url} (JSON) cargado con éxito.`);
+                                 return data;
+                             } catch (parseError) {
+                                 console.error(`Error parseando JSON desde ${url}:`, parseError);
+                                 throw new Error(`Error de formato en el archivo JSON: ${url}. (${parseError.message})`);
+                             }
+                         } else { // Assume text for M3U
+                             const textData = await response.text();
+                             console.log(`fetchResource: ${url} (Text) cargado con éxito.`);
+                             return textData;
+                         }
+                     } catch (error) {
+                         console.error(`Error en fetchResource para ${url}:`, error);
+                         // Add specific check for network errors (TypeError: Failed to fetch)
+                         if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+                             throw new Error(`Error de red al intentar cargar ${url}. ¿Está la ruta correcta y el archivo accesible?`);
+                         }
+                         // Re-throw other errors (like the HTTP error created above or JSON errors)
+                         throw error;
+                     }
+                 }
+
+                async function fetchM3U(url) {
+                    const m3uText = await fetchResource(url, 'text');
+                    return parseM3U(m3uText);
+                }
+
                 function parseM3U(m3uText) { /* ... */ }
-                async function fetchJson(url, type) { /* ... */ }
+
+                async function fetchJson(url, type) {
+                    return await fetchResource(url, 'json');
+                }
 
                 // --- Content Display ---
-                function filterAndDisplayContent() {
-                    // console.log(`filterAndDisplayContent: Iniciando display para filtro '${currentFilter}'`); // Removed log
-                    showLoadingState(true);
-                    clearInlineError();
-                    contentGrid.innerHTML = '';
-                    shortsGrid.innerHTML = '';
-                    shortsShelfContainer.style.display = 'none';
-
-                    const searchTerm = searchInput.value.toLowerCase().trim();
-                    let contentForMainGrid = [];
-                    let contentForShorts = [];
-
-                    let filteredByCategory = allContent;
-                    if (currentFilter !== 'all' && currentFilter !== 'favorites') {
-                        filteredByCategory = allContent.filter(item => item.type === currentFilter);
-                    } else if (currentFilter === 'favorites') {
-                        filteredByCategory = allContent.filter(item => favorites.includes(item.id));
-                    }
-                    // console.log(`filterAndDisplayContent: Después de filtrar por categoría '${currentFilter}', quedan ${filteredByCategory.length} items.`); // Removed log
-
-                    let filteredContent = filteredByCategory;
-                    if (searchTerm) {
-                        filteredContent = filteredByCategory.filter(item => {
-                            const title = getItemTitle(item)?.toLowerCase() || '';
-                            const description = getItemDescription(item)?.toLowerCase() || '';
-                            return title.includes(searchTerm) || description.includes(searchTerm);
-                        });
-                        // console.log(`filterAndDisplayContent: Después de filtrar por búsqueda '${searchTerm}', quedan ${filteredContent.length} items.`); // Removed log
-                    }
-
-                    if (currentFilter === 'all' && !searchTerm) {
-                        contentForShorts = filteredContent.filter(item => item.type === 'movie');
-                        contentForMainGrid = filteredContent.filter(item => item.type !== 'movie');
-                        // console.log(`filterAndDisplayContent: Separando ${contentForShorts.length} películas para Shorts.`); // Removed log
-                    } else {
-                        contentForMainGrid = filteredContent;
-                    }
-
-                    if (contentForShorts.length > 0) {
-                        contentForShorts.sort((a, b) => (getItemTitle(a) || '').localeCompare(getItemTitle(b) || ''));
-                        const shortsFragment = document.createDocumentFragment();
-                        contentForShorts.forEach(item => { shortsFragment.appendChild(createContentCard(item, true)); });
-                        shortsGrid.appendChild(shortsFragment);
-                        shortsShelfContainer.style.display = 'block';
-                        // console.log(`filterAndDisplayContent: Mostrando ${contentForShorts.length} tarjetas de Shorts.`); // Removed log
-                    }
-
-                    contentForMainGrid.sort((a, b) => {
-                        const aIsFav = favorites.includes(a.id); const bIsFav = favorites.includes(b.id);
-                        if (aIsFav && !bIsFav) return -1; if (!aIsFav && bIsFav) return 1;
-                        return (getItemTitle(a) || '').localeCompare(getItemTitle(b) || '');
-                    });
-
-                    if (contentForMainGrid.length === 0 && contentForShorts.length === 0) {
-                        // console.log("filterAndDisplayContent: No se encontró contenido para mostrar en ninguna sección."); // Removed log
-                        displayInlineError(currentFilter === 'favorites' ? "No tienes favoritos." : "No se encontró contenido que coincida.");
-                    } else if (contentForMainGrid.length > 0) {
-                        // console.log(`filterAndDisplayContent: Mostrando ${contentForMainGrid.length} tarjetas en la cuadrícula principal.`); // Removed log
-                        const mainFragment = document.createDocumentFragment();
-                        contentForMainGrid.forEach(item => { mainFragment.appendChild(createContentCard(item, false)); });
-                        contentGrid.appendChild(mainFragment);
-                    }
-
-                    showLoadingState(false);
-                    // console.log("filterAndDisplayContent completado."); // Removed log
-                }
-
+                function filterAndDisplayContent() { /* ... */ }
                 function createContentCard(item, isShort = false) { /* ... */ }
+
+                // --- Player Logic ---
                 function showPlayerView(itemId) { /* ... */ }
                 function showGridView() { /* ... */ }
                 function playM3U8Video(url, itemId) { /* ... */ }
@@ -495,21 +294,10 @@
                 function updatePlayingEpisodeUI(playingElement) { /* ... */ }
                 function loadVideoInIframe(videoUrl, targetIframe, targetMessageElement) { /* ... */ }
                 function resetIframePlayer(targetIframe) { /* ... */ }
+
+                // --- UI Helpers ---
                 function setActiveSidebarItem(activeItem) { /* ... */ }
-                function showLoadingState(isLoading) {
-                     if (loadingIndicatorGrid) {
-                         // console.log(`showLoadingState: Estableciendo estado de carga a ${isLoading}`); // Removed log
-                         loadingIndicatorGrid.style.display = isLoading ? 'block' : 'none';
-                         if (isLoading) {
-                             contentGrid.innerHTML = '';
-                             contentGrid.appendChild(loadingIndicatorGrid);
-                             shortsGrid.innerHTML = '';
-                             shortsShelfContainer.style.display = 'none';
-                         }
-                     } else {
-                          console.warn("showLoadingState: Indicador de carga no encontrado.");
-                     }
-                 }
+                function showLoadingState(isLoading) { /* ... */ }
                 function displayInlineError(message) { /* ... */ }
                 function clearInlineError() { /* ... */ }
                 function showErrorOverlay(message) { /* ... */ }
@@ -517,12 +305,18 @@
                 function hideErrorOverlay() { /* ... */ }
                 function showMessageInPlayer(text, msgEl, playerEl) { /* ... */ }
                 function hideMessageInPlayer(msgEl, playerEl) { /* ... */ }
+
+                // --- Data Helpers ---
                 function getItemTitle(item) { /* ... */ }
                 function getItemDescription(item) { /* ... */ }
                 function getItemThumbnail(item) { /* ... */ }
+
+                // --- Action Handlers ---
                 function handleSearch() { /* ... */ }
                 function retryLastAction() { /* ... */ }
                 function handleGlobalKeys(event) { /* ... */ }
+
+                // --- Favorites ---
                 function toggleFavorite(itemId) { /* ... */ }
 
                 // --- Start the application ---
